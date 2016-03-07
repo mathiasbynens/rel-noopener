@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>About rel=noopener</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+	html { font: 1em/1.6 sans-serif; }
+	body { padding: 0 .75em; max-width: 30em; margin: 0 auto; }
+	.user-generated { display: block; padding: .5em 1em; border: 1px solid orange; background: lightyellow; }
+	#hax { display: none; font-family: Comic Sans MS; color: red; transform: rotate(-5deg); }
+	#hax:target { display: block; }
+</style>
+<h1 id="hax">0m6 you’ve been h4ck3d!!1one!shift!!!1 💩</h1>
+<h1>About <code>rel=noopener</code></h1>
+<h2 id="problems">What problems does it solve?</h2>
+<p>You’re currently viewing <code>index.html</code>.
+<p>Imagine the following is user-generated content on your website:</p>
+<a class="user-generated" href="malicious.html" target="_blank"><b>Click me!!1 (same-origin)</b></a>
+<p>Clicking the above link opens <code>malicious.html</code> in a new tab (using <code>target=_blank</code>). By itself, that’s not very exciting.
+<p>However, the <code>malicious.html</code> document in this new tab has a <code>window.opener</code> which points to the <code>window</code> of the HTML document you’re viewing right now, i.e. <code>index.html</code>.
+<p>This means that once the user clicks the link, <code>malicious.html</code> has full control over this document’s <code>window</code> object!
+<p>Note that this also works when <code>index.html</code> and <code>malicious.html</code> are on different origins — <code>window.opener.location</code> is accessible across origins! (Things like <code>window.opener.document</code> are subject to <a href="https://www.w3.org/TR/cors/">CORS</a> though.) Here’s an example with a cross-origin link:</p>
+<a class="user-generated" href="https://mathiasbynens.be/demo/opener" target="_blank"><b>Click me!!1 (cross-origin)</b></a>
+<p>In this proof of concept, <code>malicious.html</code> replaces the tab containing <code>index.html</code> with <code>index.html#hax</code>, which displays a hidden message. This is a relatively harmless example, but instead it could’ve redirected to a phishing page, designed to look like the real <code>index.html</code>, asking for login credentials. The user likely wouldn’t notice this, because the focus is on the malicious page in the new window while the redirect happens in the background. This attack could be made even more subtle by adding a delay before redirecting to the phishing page in the background (see <a href="http://www.azarask.in/blog/post/a-new-type-of-phishing-attack/"><i>tab nabbing</i></a>).
+<p>TL;DR If <code>window.opener</code> is set, a page can trigger a navigation in the opener regardless of security origin.
+<h2 id="recommendations">Recommendations</h2>
+<p>To prevent pages from abusing <code>window.opener</code>, use <a href="https://html.spec.whatwg.org/multipage/semantics.html#link-type-noopener"><code>rel=noopener</code></a>. This ensures <code>window.opener</code> is <code>null</code> in Chrome 49 and Opera 36.</p>
+<a class="user-generated" href="malicious.html" target="_blank" rel="noopener"><b>Click me!!1 (now with <code>rel=noopener</code>)</b></a>
+<p>For older browsers, you could use <a href="https://html.spec.whatwg.org/multipage/semantics.html#link-type-noreferrer"><code>rel=noreferrer</code></a> which also disables the <code>Referer</code> HTTP header, or the following JavaScript work-around which potentially triggers the popup blocker:
+<pre><code>var otherWindow = window.open();
+otherWindow.opener = null;
+otherWindow.location = url;</code></pre>
+<p>Don’t use <code>target=_blank</code>, <em>especially for links in user-generated content</em>, unless you have <a href="https://css-tricks.com/use-target_blank/">a good reason to</a>.
+<h2 id="bugs">Bug tickets to follow</h2>
+<ul>
+	<li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1222516">Gecko/Firefox bug #1222516</a>
+	<li><a href="https://bugs.webkit.org/show_bug.cgi?id=155165">WebKit/Safari bug #155166</a>
+	<li><a href="https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/12942405-implement-rel-noopener">Microsoft Edge feature request</a>
+	<li><del><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=168988">Chromium/Chrome/Opera bug #168988</a></del> <ins>fixed</ins>
+</ul>
