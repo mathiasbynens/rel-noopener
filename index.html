@@ -9,6 +9,7 @@
 	#hax { display: none; font-family: Comic Sans MS; color: red; transform: rotate(-5deg); }
 	#hax:target { display: block; }
 </style>
+<link rel="canonical" href="https://mathiasbynens.github.io/rel-noopener/">
 <h1 id="hax">0m6 you’ve been h4ck3d!!1one!shift!!!1 💩</h1>
 <h1>About <code>rel=noopener</code></h1>
 <h2 id="problems">What problems does it solve?</h2>
@@ -39,3 +40,8 @@ otherWindow.location = url;</code></pre>
 </ul>
 <hr>
 <p>Questions? Feedback? Tweet <a href="https://twitter.com/mathias" rel="nofollow">@mathias</a>.
+<script>
+	if (location.search) { // https://news.ycombinator.com/item?id=11553740
+		location = document.querySelector('link[rel="canonical"]').href;
+	}
+</script>
