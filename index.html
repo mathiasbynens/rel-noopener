@@ -30,6 +30,9 @@
 <pre><code>var otherWindow = window.open();
 otherWindow.opener = null;
 otherWindow.location = url;</code></pre>
+<a class="user-generated" href="malicious.html" target="_blank" rel="noreferrer"><b>Click me!!1 (now with <code>rel=noreferrer</code>-based workaround)</b></a>
+<a class="user-generated" href="malicious.html" target="_blank" onclick="var otherWindow = window.open(); otherWindow.opener = null; otherWindow.location = href; return false;"><b>Click me!!1 (now with <code>window.open()</code>-based workaround)</b></a>
+<p>Note that <a href="https://github.com/danielstjules/blankshield#solutions">the JavaScript-based work-around fails in Safari</a>. For Safari support, inject a hidden <code>iframe</code> that opens the new tab, and then immediately remove the <code>iframe</code>.</p>
 <p>Don’t use <code>target=_blank</code> (or any other <code>target</code> that opens a new navigation context), <em>especially for links in user-generated content</em>, unless you have <a href="https://css-tricks.com/use-target_blank/">a good reason to</a>.
 <h2 id="bugs">Bug tickets to follow</h2>
 <ul>
