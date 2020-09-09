@@ -35,13 +35,14 @@ otherWindow.location = url;</code></pre>
 <p>Note that <a href="https://github.com/danielstjules/blankshield#solutions">the JavaScript-based work-around fails in Safari</a>. For Safari support, inject a hidden <code>iframe</code> that opens the new tab, and then immediately remove the <code>iframe</code>.</p>
 <p>Don’t use <code>target=_blank</code> (or any other <code>target</code> that opens a new navigation context), <em>especially for links in user-generated content</em>, unless you have <a href="https://css-tricks.com/use-target_blank/">a good reason to</a>.
 <h2 id="notes">Notes</h2>
-<p>In <a href="https://webkit.org/blog/8475/release-notes-for-safari-technology-preview-68/">Safari Technology Preview 68</a>, <code>target="_blank"</code> on anchors implies <code>rel="noopener"</code>. To explicitly opt-in to having <code>window.opener</code> be present, use <code>rel="opener"</code>. An attempt is being made to <a href="https://github.com/whatwg/html/issues/4078">standardize this</a>.</p>
+<p>In <a href="https://webkit.org/blog/8475/release-notes-for-safari-technology-preview-68/">Safari Technology Preview 68</a>, <code>target="_blank"</code> on anchors implies <code>rel="noopener"</code>. To explicitly opt-in to having <code>window.opener</code> be present, use <code>rel="opener"</code>. This behavior was later <a href="https://github.com/whatwg/html/pull/4330">standardized</a>.</p>
 <h2 id="bugs">Bug tickets to follow</h2>
 <ul>
 	<li><del><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1222516">Gecko/Firefox bug #1222516</a></del> <ins>fixed</ins>
 	<li><del><a href="https://bugs.webkit.org/show_bug.cgi?id=155166">WebKit/Safari bug #155166</a></del> <ins>fixed</ins>
-	<li><a href="https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/12942405-implement-rel-noopener">Microsoft Edge feature request</a>
-	<li><del><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=168988">Chromium/Chrome/Opera bug #168988</a></del> <ins>fixed</ins>
+	<li><del><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=168988">Chromium bug #168988</a></del> <ins>fixed</ins>
+	<li><a href="https://bugs.chromium.org/p/chromium/issues/detail?id=898942">Chromium bug #898942: make <code>target="_blank"</code> imply <code>rel="noopener"</code></a>
+	<li><a href="https://wpdev.uservoice.com/forums/257854-microsoft-edge-developer/suggestions/12942405-implement-rel-noopener">Microsoft Edge feature request</del>
 </ul>
 <hr>
 <p>Questions? Feedback? Tweet <a href="https://twitter.com/mathias" rel="nofollow">@mathias</a>.
